@@ -1,0 +1,1111 @@
+Rules useless in parser due to conflicts
+
+   18 ST2: %empty
+
+   30 ST5: %empty
+
+
+State 33 conflicts: 1 reduce/reduce
+State 37 conflicts: 2 reduce/reduce
+State 56 conflicts: 1 reduce/reduce
+State 61 conflicts: 1 reduce/reduce
+State 63 conflicts: 1 reduce/reduce
+State 89 conflicts: 2 shift/reduce
+State 90 conflicts: 2 shift/reduce
+
+
+Grammar
+
+    0 $accept: Input $end
+
+    1 Input: %empty
+    2      | Input S
+
+    3 S: ST1 ';'
+    4  | ST7 ';'
+    5  | ST8 ';'
+    6  | ST9 ';'
+
+    7 ST1: SELECT attributList FROM tableList
+    8    | SELECT error
+    9    | SELECT DISTINCT attributList FROM tableList
+   10    | SELECT DISTINCT attributList FROM error
+   11    | SELECT attributList FROM tableList ST2
+   12    | SELECT attributList FROM tableList ST3
+
+   13 ST9: DELETE FROM ID
+   14    | DELETE error
+   15    | DELETE FROM ID ST2
+
+   16 ST2: WHERE error
+   17    | WHERE COND ST3
+   18    | %empty
+   19    | WHERE COND
+
+   20 ST3: GROUP attributList
+   21    | GROUP attributList ST4
+   22    | GROUP error
+   23    | ST4
+
+   24 ST4: HAVING COND ST5
+   25    | HAVING COND
+   26    | HAVING error
+   27    | ST5
+
+   28 ST5: ORDER attributList ST6
+   29    | ORDER error
+   30    | %empty
+
+   31 ST6: DESC
+   32    | ASC
+
+   33 ST7: CREATE TABLE ID
+   34    | CREATE
+   35    | CREATE TABLE error
+   36    | CREATE TABLE ID '(' column ')'
+
+   37 ST8: DROP TABLE ID
+   38    | DROP error
+   39    | DROP TABLE error
+
+   40 types: INT
+   41      | VARCHAR
+
+   42 column: ID types ',' column
+   43       | ID types
+
+   44 attributList: ID ',' attributList
+   45             | '*'
+   46             | ID
+
+   47 tableList: ID ',' tableList
+   48          | ID
+
+   49 COND: COND OR COND
+   50     | COND AND COND
+   51     | E
+
+   52 E: F '=' F
+   53  | F '<' F
+   54  | F '>' F
+   55  | F OPP F
+   56  | F AND F
+   57  | F OR F
+
+   58 OPP: EQ
+   59    | LE
+   60    | GE
+   61    | DIF
+
+   62 F: ID
+   63  | NUM
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '(' (40) 36
+    ')' (41) 36
+    '*' (42) 45
+    ',' (44) 42 44 47
+    ';' (59) 3 4 5 6
+    '<' (60) 53
+    '=' (61) 52
+    '>' (62) 54
+    error (256) 8 10 14 16 22 26 29 35 38 39
+    ID (258) 13 15 33 36 37 42 43 44 46 47 48 62
+    NUM (259) 63
+    SELECT (260) 7 8 9 10 11 12
+    FROM (261) 7 9 10 11 12 13 15
+    DISTINCT (262) 9 10
+    WHERE (263) 16 17 19
+    GROUP (264) 20 21 22
+    HAVING (265) 24 25 26
+    ORDER (266) 28 29
+    DESC (267) 31
+    ASC (268) 32
+    CREATE (269) 33 34 35 36
+    TABLE (270) 33 35 36 37 39
+    DROP (271) 37 38 39
+    DELETE (272) 13 14 15
+    AND (273) 50 56
+    OR (274) 49 57
+    LE (275) 59
+    GE (276) 60
+    EQ (277) 58
+    DIF (278) 61
+    INT (279) 40
+    VARCHAR (280) 41
+
+
+Nonterminals, with rules where they appear
+
+    $accept (34)
+        on left: 0
+    Input (35)
+        on left: 1 2
+        on right: 0 2
+    S (36)
+        on left: 3 4 5 6
+        on right: 2
+    ST1 (37)
+        on left: 7 8 9 10 11 12
+        on right: 3
+    ST9 (38)
+        on left: 13 14 15
+        on right: 6
+    ST2 (39)
+        on left: 16 17 18 19
+        on right: 11 15
+    ST3 (40)
+        on left: 20 21 22 23
+        on right: 12 17
+    ST4 (41)
+        on left: 24 25 26 27
+        on right: 21 23
+    ST5 (42)
+        on left: 28 29 30
+        on right: 24 27
+    ST6 (43)
+        on left: 31 32
+        on right: 28
+    ST7 (44)
+        on left: 33 34 35 36
+        on right: 4
+    ST8 (45)
+        on left: 37 38 39
+        on right: 5
+    types (46)
+        on left: 40 41
+        on right: 42 43
+    column (47)
+        on left: 42 43
+        on right: 36 42
+    attributList (48)
+        on left: 44 45 46
+        on right: 7 9 10 11 12 20 21 28 44
+    tableList (49)
+        on left: 47 48
+        on right: 7 9 11 12 47
+    COND (50)
+        on left: 49 50 51
+        on right: 17 19 24 25 49 50
+    E (51)
+        on left: 52 53 54 55 56 57
+        on right: 51
+    OPP (52)
+        on left: 58 59 60 61
+        on right: 55
+    F (53)
+        on left: 62 63
+        on right: 52 53 54 55 56 57
+
+
+State 0
+
+    0 $accept: . Input $end
+
+    $default  reduce using rule 1 (Input)
+
+    Input  go to state 1
+
+
+State 1
+
+    0 $accept: Input . $end
+    2 Input: Input . S
+
+    $end    shift, and go to state 2
+    SELECT  shift, and go to state 3
+    CREATE  shift, and go to state 4
+    DROP    shift, and go to state 5
+    DELETE  shift, and go to state 6
+
+    S    go to state 7
+    ST1  go to state 8
+    ST9  go to state 9
+    ST7  go to state 10
+    ST8  go to state 11
+
+
+State 2
+
+    0 $accept: Input $end .
+
+    $default  accept
+
+
+State 3
+
+    7 ST1: SELECT . attributList FROM tableList
+    8    | SELECT . error
+    9    | SELECT . DISTINCT attributList FROM tableList
+   10    | SELECT . DISTINCT attributList FROM error
+   11    | SELECT . attributList FROM tableList ST2
+   12    | SELECT . attributList FROM tableList ST3
+
+    error     shift, and go to state 12
+    ID        shift, and go to state 13
+    DISTINCT  shift, and go to state 14
+    '*'       shift, and go to state 15
+
+    attributList  go to state 16
+
+
+State 4
+
+   33 ST7: CREATE . TABLE ID
+   34    | CREATE .
+   35    | CREATE . TABLE error
+   36    | CREATE . TABLE ID '(' column ')'
+
+    TABLE  shift, and go to state 17
+
+    $default  reduce using rule 34 (ST7)
+
+
+State 5
+
+   37 ST8: DROP . TABLE ID
+   38    | DROP . error
+   39    | DROP . TABLE error
+
+    error  shift, and go to state 18
+    TABLE  shift, and go to state 19
+
+
+State 6
+
+   13 ST9: DELETE . FROM ID
+   14    | DELETE . error
+   15    | DELETE . FROM ID ST2
+
+    error  shift, and go to state 20
+    FROM   shift, and go to state 21
+
+
+State 7
+
+    2 Input: Input S .
+
+    $default  reduce using rule 2 (Input)
+
+
+State 8
+
+    3 S: ST1 . ';'
+
+    ';'  shift, and go to state 22
+
+
+State 9
+
+    6 S: ST9 . ';'
+
+    ';'  shift, and go to state 23
+
+
+State 10
+
+    4 S: ST7 . ';'
+
+    ';'  shift, and go to state 24
+
+
+State 11
+
+    5 S: ST8 . ';'
+
+    ';'  shift, and go to state 25
+
+
+State 12
+
+    8 ST1: SELECT error .
+
+    $default  reduce using rule 8 (ST1)
+
+
+State 13
+
+   44 attributList: ID . ',' attributList
+   46             | ID .
+
+    ','  shift, and go to state 26
+
+    $default  reduce using rule 46 (attributList)
+
+
+State 14
+
+    9 ST1: SELECT DISTINCT . attributList FROM tableList
+   10    | SELECT DISTINCT . attributList FROM error
+
+    ID   shift, and go to state 13
+    '*'  shift, and go to state 15
+
+    attributList  go to state 27
+
+
+State 15
+
+   45 attributList: '*' .
+
+    $default  reduce using rule 45 (attributList)
+
+
+State 16
+
+    7 ST1: SELECT attributList . FROM tableList
+   11    | SELECT attributList . FROM tableList ST2
+   12    | SELECT attributList . FROM tableList ST3
+
+    FROM  shift, and go to state 28
+
+
+State 17
+
+   33 ST7: CREATE TABLE . ID
+   35    | CREATE TABLE . error
+   36    | CREATE TABLE . ID '(' column ')'
+
+    error  shift, and go to state 29
+    ID     shift, and go to state 30
+
+
+State 18
+
+   38 ST8: DROP error .
+
+    $default  reduce using rule 38 (ST8)
+
+
+State 19
+
+   37 ST8: DROP TABLE . ID
+   39    | DROP TABLE . error
+
+    error  shift, and go to state 31
+    ID     shift, and go to state 32
+
+
+State 20
+
+   14 ST9: DELETE error .
+
+    $default  reduce using rule 14 (ST9)
+
+
+State 21
+
+   13 ST9: DELETE FROM . ID
+   15    | DELETE FROM . ID ST2
+
+    ID  shift, and go to state 33
+
+
+State 22
+
+    3 S: ST1 ';' .
+
+    $default  reduce using rule 3 (S)
+
+
+State 23
+
+    6 S: ST9 ';' .
+
+    $default  reduce using rule 6 (S)
+
+
+State 24
+
+    4 S: ST7 ';' .
+
+    $default  reduce using rule 4 (S)
+
+
+State 25
+
+    5 S: ST8 ';' .
+
+    $default  reduce using rule 5 (S)
+
+
+State 26
+
+   44 attributList: ID ',' . attributList
+
+    ID   shift, and go to state 13
+    '*'  shift, and go to state 15
+
+    attributList  go to state 34
+
+
+State 27
+
+    9 ST1: SELECT DISTINCT attributList . FROM tableList
+   10    | SELECT DISTINCT attributList . FROM error
+
+    FROM  shift, and go to state 35
+
+
+State 28
+
+    7 ST1: SELECT attributList FROM . tableList
+   11    | SELECT attributList FROM . tableList ST2
+   12    | SELECT attributList FROM . tableList ST3
+
+    ID  shift, and go to state 36
+
+    tableList  go to state 37
+
+
+State 29
+
+   35 ST7: CREATE TABLE error .
+
+    $default  reduce using rule 35 (ST7)
+
+
+State 30
+
+   33 ST7: CREATE TABLE ID .
+   36    | CREATE TABLE ID . '(' column ')'
+
+    '('  shift, and go to state 38
+
+    $default  reduce using rule 33 (ST7)
+
+
+State 31
+
+   39 ST8: DROP TABLE error .
+
+    $default  reduce using rule 39 (ST8)
+
+
+State 32
+
+   37 ST8: DROP TABLE ID .
+
+    $default  reduce using rule 37 (ST8)
+
+
+State 33
+
+   13 ST9: DELETE FROM ID .
+   15    | DELETE FROM ID . ST2
+
+    WHERE  shift, and go to state 39
+
+    ';'       reduce using rule 13 (ST9)
+    ';'       [reduce using rule 18 (ST2)]
+    $default  reduce using rule 13 (ST9)
+
+    ST2  go to state 40
+
+
+State 34
+
+   44 attributList: ID ',' attributList .
+
+    $default  reduce using rule 44 (attributList)
+
+
+State 35
+
+    9 ST1: SELECT DISTINCT attributList FROM . tableList
+   10    | SELECT DISTINCT attributList FROM . error
+
+    error  shift, and go to state 41
+    ID     shift, and go to state 36
+
+    tableList  go to state 42
+
+
+State 36
+
+   47 tableList: ID . ',' tableList
+   48          | ID .
+
+    ','  shift, and go to state 43
+
+    $default  reduce using rule 48 (tableList)
+
+
+State 37
+
+    7 ST1: SELECT attributList FROM tableList .
+   11    | SELECT attributList FROM tableList . ST2
+   12    | SELECT attributList FROM tableList . ST3
+
+    WHERE   shift, and go to state 39
+    GROUP   shift, and go to state 44
+    HAVING  shift, and go to state 45
+    ORDER   shift, and go to state 46
+
+    ';'       reduce using rule 7 (ST1)
+    ';'       [reduce using rule 18 (ST2)]
+    ';'       [reduce using rule 30 (ST5)]
+    $default  reduce using rule 7 (ST1)
+
+    ST2  go to state 47
+    ST3  go to state 48
+    ST4  go to state 49
+    ST5  go to state 50
+
+
+State 38
+
+   36 ST7: CREATE TABLE ID '(' . column ')'
+
+    ID  shift, and go to state 51
+
+    column  go to state 52
+
+
+State 39
+
+   16 ST2: WHERE . error
+   17    | WHERE . COND ST3
+   19    | WHERE . COND
+
+    error  shift, and go to state 53
+    ID     shift, and go to state 54
+    NUM    shift, and go to state 55
+
+    COND  go to state 56
+    E     go to state 57
+    F     go to state 58
+
+
+State 40
+
+   15 ST9: DELETE FROM ID ST2 .
+
+    $default  reduce using rule 15 (ST9)
+
+
+State 41
+
+   10 ST1: SELECT DISTINCT attributList FROM error .
+
+    $default  reduce using rule 10 (ST1)
+
+
+State 42
+
+    9 ST1: SELECT DISTINCT attributList FROM tableList .
+
+    $default  reduce using rule 9 (ST1)
+
+
+State 43
+
+   47 tableList: ID ',' . tableList
+
+    ID  shift, and go to state 36
+
+    tableList  go to state 59
+
+
+State 44
+
+   20 ST3: GROUP . attributList
+   21    | GROUP . attributList ST4
+   22    | GROUP . error
+
+    error  shift, and go to state 60
+    ID     shift, and go to state 13
+    '*'    shift, and go to state 15
+
+    attributList  go to state 61
+
+
+State 45
+
+   24 ST4: HAVING . COND ST5
+   25    | HAVING . COND
+   26    | HAVING . error
+
+    error  shift, and go to state 62
+    ID     shift, and go to state 54
+    NUM    shift, and go to state 55
+
+    COND  go to state 63
+    E     go to state 57
+    F     go to state 58
+
+
+State 46
+
+   28 ST5: ORDER . attributList ST6
+   29    | ORDER . error
+
+    error  shift, and go to state 64
+    ID     shift, and go to state 13
+    '*'    shift, and go to state 15
+
+    attributList  go to state 65
+
+
+State 47
+
+   11 ST1: SELECT attributList FROM tableList ST2 .
+
+    $default  reduce using rule 11 (ST1)
+
+
+State 48
+
+   12 ST1: SELECT attributList FROM tableList ST3 .
+
+    $default  reduce using rule 12 (ST1)
+
+
+State 49
+
+   23 ST3: ST4 .
+
+    $default  reduce using rule 23 (ST3)
+
+
+State 50
+
+   27 ST4: ST5 .
+
+    $default  reduce using rule 27 (ST4)
+
+
+State 51
+
+   42 column: ID . types ',' column
+   43       | ID . types
+
+    INT      shift, and go to state 66
+    VARCHAR  shift, and go to state 67
+
+    types  go to state 68
+
+
+State 52
+
+   36 ST7: CREATE TABLE ID '(' column . ')'
+
+    ')'  shift, and go to state 69
+
+
+State 53
+
+   16 ST2: WHERE error .
+
+    $default  reduce using rule 16 (ST2)
+
+
+State 54
+
+   62 F: ID .
+
+    $default  reduce using rule 62 (F)
+
+
+State 55
+
+   63 F: NUM .
+
+    $default  reduce using rule 63 (F)
+
+
+State 56
+
+   17 ST2: WHERE COND . ST3
+   19    | WHERE COND .
+   49 COND: COND . OR COND
+   50     | COND . AND COND
+
+    GROUP   shift, and go to state 44
+    HAVING  shift, and go to state 45
+    ORDER   shift, and go to state 46
+    AND     shift, and go to state 70
+    OR      shift, and go to state 71
+
+    ';'       reduce using rule 19 (ST2)
+    ';'       [reduce using rule 30 (ST5)]
+    $default  reduce using rule 19 (ST2)
+
+    ST3  go to state 72
+    ST4  go to state 49
+    ST5  go to state 50
+
+
+State 57
+
+   51 COND: E .
+
+    $default  reduce using rule 51 (COND)
+
+
+State 58
+
+   52 E: F . '=' F
+   53  | F . '<' F
+   54  | F . '>' F
+   55  | F . OPP F
+   56  | F . AND F
+   57  | F . OR F
+
+    AND  shift, and go to state 73
+    OR   shift, and go to state 74
+    LE   shift, and go to state 75
+    GE   shift, and go to state 76
+    EQ   shift, and go to state 77
+    DIF  shift, and go to state 78
+    '='  shift, and go to state 79
+    '<'  shift, and go to state 80
+    '>'  shift, and go to state 81
+
+    OPP  go to state 82
+
+
+State 59
+
+   47 tableList: ID ',' tableList .
+
+    $default  reduce using rule 47 (tableList)
+
+
+State 60
+
+   22 ST3: GROUP error .
+
+    $default  reduce using rule 22 (ST3)
+
+
+State 61
+
+   20 ST3: GROUP attributList .
+   21    | GROUP attributList . ST4
+
+    HAVING  shift, and go to state 45
+    ORDER   shift, and go to state 46
+
+    ';'       reduce using rule 20 (ST3)
+    ';'       [reduce using rule 30 (ST5)]
+    $default  reduce using rule 20 (ST3)
+
+    ST4  go to state 83
+    ST5  go to state 50
+
+
+State 62
+
+   26 ST4: HAVING error .
+
+    $default  reduce using rule 26 (ST4)
+
+
+State 63
+
+   24 ST4: HAVING COND . ST5
+   25    | HAVING COND .
+   49 COND: COND . OR COND
+   50     | COND . AND COND
+
+    ORDER  shift, and go to state 46
+    AND    shift, and go to state 70
+    OR     shift, and go to state 71
+
+    ';'       reduce using rule 25 (ST4)
+    ';'       [reduce using rule 30 (ST5)]
+    $default  reduce using rule 25 (ST4)
+
+    ST5  go to state 84
+
+
+State 64
+
+   29 ST5: ORDER error .
+
+    $default  reduce using rule 29 (ST5)
+
+
+State 65
+
+   28 ST5: ORDER attributList . ST6
+
+    DESC  shift, and go to state 85
+    ASC   shift, and go to state 86
+
+    ST6  go to state 87
+
+
+State 66
+
+   40 types: INT .
+
+    $default  reduce using rule 40 (types)
+
+
+State 67
+
+   41 types: VARCHAR .
+
+    $default  reduce using rule 41 (types)
+
+
+State 68
+
+   42 column: ID types . ',' column
+   43       | ID types .
+
+    ','  shift, and go to state 88
+
+    $default  reduce using rule 43 (column)
+
+
+State 69
+
+   36 ST7: CREATE TABLE ID '(' column ')' .
+
+    $default  reduce using rule 36 (ST7)
+
+
+State 70
+
+   50 COND: COND AND . COND
+
+    ID   shift, and go to state 54
+    NUM  shift, and go to state 55
+
+    COND  go to state 89
+    E     go to state 57
+    F     go to state 58
+
+
+State 71
+
+   49 COND: COND OR . COND
+
+    ID   shift, and go to state 54
+    NUM  shift, and go to state 55
+
+    COND  go to state 90
+    E     go to state 57
+    F     go to state 58
+
+
+State 72
+
+   17 ST2: WHERE COND ST3 .
+
+    $default  reduce using rule 17 (ST2)
+
+
+State 73
+
+   56 E: F AND . F
+
+    ID   shift, and go to state 54
+    NUM  shift, and go to state 55
+
+    F  go to state 91
+
+
+State 74
+
+   57 E: F OR . F
+
+    ID   shift, and go to state 54
+    NUM  shift, and go to state 55
+
+    F  go to state 92
+
+
+State 75
+
+   59 OPP: LE .
+
+    $default  reduce using rule 59 (OPP)
+
+
+State 76
+
+   60 OPP: GE .
+
+    $default  reduce using rule 60 (OPP)
+
+
+State 77
+
+   58 OPP: EQ .
+
+    $default  reduce using rule 58 (OPP)
+
+
+State 78
+
+   61 OPP: DIF .
+
+    $default  reduce using rule 61 (OPP)
+
+
+State 79
+
+   52 E: F '=' . F
+
+    ID   shift, and go to state 54
+    NUM  shift, and go to state 55
+
+    F  go to state 93
+
+
+State 80
+
+   53 E: F '<' . F
+
+    ID   shift, and go to state 54
+    NUM  shift, and go to state 55
+
+    F  go to state 94
+
+
+State 81
+
+   54 E: F '>' . F
+
+    ID   shift, and go to state 54
+    NUM  shift, and go to state 55
+
+    F  go to state 95
+
+
+State 82
+
+   55 E: F OPP . F
+
+    ID   shift, and go to state 54
+    NUM  shift, and go to state 55
+
+    F  go to state 96
+
+
+State 83
+
+   21 ST3: GROUP attributList ST4 .
+
+    $default  reduce using rule 21 (ST3)
+
+
+State 84
+
+   24 ST4: HAVING COND ST5 .
+
+    $default  reduce using rule 24 (ST4)
+
+
+State 85
+
+   31 ST6: DESC .
+
+    $default  reduce using rule 31 (ST6)
+
+
+State 86
+
+   32 ST6: ASC .
+
+    $default  reduce using rule 32 (ST6)
+
+
+State 87
+
+   28 ST5: ORDER attributList ST6 .
+
+    $default  reduce using rule 28 (ST5)
+
+
+State 88
+
+   42 column: ID types ',' . column
+
+    ID  shift, and go to state 51
+
+    column  go to state 97
+
+
+State 89
+
+   49 COND: COND . OR COND
+   50     | COND . AND COND
+   50     | COND AND COND .
+
+    AND  shift, and go to state 70
+    OR   shift, and go to state 71
+
+    AND       [reduce using rule 50 (COND)]
+    OR        [reduce using rule 50 (COND)]
+    $default  reduce using rule 50 (COND)
+
+
+State 90
+
+   49 COND: COND . OR COND
+   49     | COND OR COND .
+   50     | COND . AND COND
+
+    AND  shift, and go to state 70
+    OR   shift, and go to state 71
+
+    AND       [reduce using rule 49 (COND)]
+    OR        [reduce using rule 49 (COND)]
+    $default  reduce using rule 49 (COND)
+
+
+State 91
+
+   56 E: F AND F .
+
+    $default  reduce using rule 56 (E)
+
+
+State 92
+
+   57 E: F OR F .
+
+    $default  reduce using rule 57 (E)
+
+
+State 93
+
+   52 E: F '=' F .
+
+    $default  reduce using rule 52 (E)
+
+
+State 94
+
+   53 E: F '<' F .
+
+    $default  reduce using rule 53 (E)
+
+
+State 95
+
+   54 E: F '>' F .
+
+    $default  reduce using rule 54 (E)
+
+
+State 96
+
+   55 E: F OPP F .
+
+    $default  reduce using rule 55 (E)
+
+
+State 97
+
+   42 column: ID types ',' column .
+
+    $default  reduce using rule 42 (column)

@@ -1,0 +1,16 @@
+select ;
+select amine from amine;
+select * from DNI where note >=10 and note <= 18;
+select * from DNI where ;
+create table isitcom ;
+create table isitcom (etudiant varchar, salle int);
+create table;
+drop table ancien;
+delete from DNI where note <10;
+drop;
+select * from DNI where a=5 group by;
+select * from DNI where a=5 group by name;
+select * from DNI where a=5 group by name having b=2;
+select * from DNI where a=5 group by name having b=2 order by;
+select * from DNI where a=5 group by name having b=2 order by * asc;
+select * from DNI where a=5 group by name having b=2 order by name desc;
