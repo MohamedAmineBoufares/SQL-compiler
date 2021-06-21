@@ -8,8 +8,5 @@
 * ./sql <test.txt
 
 
-## Or you can just run the script by typing : 
+## Or you can just run the script by typing 🔥 : 
 * ./run.sh
-
- 
-## In a terminal where the " .l ", " .y " and " .sh " files are located 🔥
